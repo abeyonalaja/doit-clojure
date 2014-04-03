@@ -47,4 +47,4 @@
 
 (defn read-doit
   [id]
-  (collection/find-one (mongo-options :doits-collection) {"_id" id}))
+  (collection/find-map-by-id (mongo-options :doits-collection) id))

@@ -21,9 +21,8 @@
 
 (deftest test-create-doit
   (testing "Create Valid DoIt"
-    (println "grr")
     (let [doit {:title "Newly Created Test DoIt"
-                :description "A New Test DoIt" 
+                :description "A New Test DoIt"
                 :due (time/plus (time/now) (time/weeks 2))
                 :priority 1}
           created (create-doit doit)]
@@ -35,3 +34,13 @@
       (is (contains? created :priority))
       (is (contains? created :created))
       (is (contains? created :modified)))))
+
+(deftest test-read-item
+  (testing "Finding item by id"
+    (let [doit {:title "Newly Created Test DoIt"
+                :description "A New Test DoIt"
+                :due (time/plus (time/now) (time/weeks 2))
+                :priority 1}
+          created (create-doit doit)
+          found (read-doit (:_id created))]
+      (is (= (created :_id) (found :_id))))))
