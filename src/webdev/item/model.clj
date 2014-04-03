@@ -51,4 +51,4 @@
 
 (defn read-doits
   []
-  (collection/find (mongo-options :doits-collection)))
+  (collection/find-maps (mongo-options :doits-collection)))

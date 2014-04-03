@@ -10,10 +10,15 @@
 (defn mongo-connection [f]
   (connect! { :host "localhost" :port 27017 })
   (set-db! (monger.core/get-db "doitnow-test"))
-  (f)
-  (mc/remove "doits"))
+  (f))
+
+(defn cleandb
+  [f]
+  (mc/remove "doits")
+  (f))
 
 (use-fixtures :once mongo-connection)
+(use-fixtures :each cleandb)
 
 (defn- object-id? [id]
   (and
@@ -46,3 +51,15 @@
           created (create-doit doit)
           found (read-doit (:_id created))]
       (is (= (created :_id) (found :_id))))))
+
+(deftest test-read-items
+  (testing "Finding all doits"
+    (let [doit {:title "Newly Created Test DoIt"
+                :description "A New Test DoIt"
+                :due (time/plus (time/now) (time/weeks 2))
+                :priority 1}]
+      (create-doit doit)
+      (create-doit doit)
+      (create-doit doit)
+      (let [doits (read-doits)]
+        (is (= 3 (count doits)))))))
