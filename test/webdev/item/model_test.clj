@@ -1,6 +1,7 @@
 (ns webdev.item.model-test
   (:use [monger.core :only [connect! set-db! get-db]])
   (:require [clojure.test :refer :all]
+            [monger.collection :as mc]
             [webdev.item.model :refer :all]
             [clj-time.core :as time]))
 
@@ -9,7 +10,8 @@
 (defn mongo-connection [f]
   (connect! { :host "localhost" :port 27017 })
   (set-db! (monger.core/get-db "doitnow-test"))
-  (f))
+  (f)
+  (mc/remove "doits"))
 
 (use-fixtures :once mongo-connection)
 
