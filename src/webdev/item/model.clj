@@ -45,6 +45,6 @@
         (throw (Exception. "Write Failed")))
       (throw (IllegalArgumentException.)))))
 
-(defn read
+(defn read-doit
   [id]
   (collection/find-one (mongo-options :doits-collection) {"_id" id}))
