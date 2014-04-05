@@ -4,7 +4,8 @@
             [ring.middleware.params :refer [wrap-params]]
             [compojure.core :refer [defroutes GET ANY POST PUT DELETE]]
             [compojure.route :refer [not-found]]
-            [ring.handler.dump :refer [handle-dump]]))
+            [ring.handler.dump :refer [handle-dump]]
+            [webdev.item.handler :refer :all]))
 
 (defn greet
   [req]
@@ -64,6 +65,9 @@
 
   (GET "/about" [] about)
   (GET "/request" [] handle-dump)
+
+  (GET "/items" [] handle-index-items)
+
   (not-found "Page not found"))
 
 (defn wrap-server
